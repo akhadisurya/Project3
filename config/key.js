@@ -1,4 +1,5 @@
 var request = require("request");
+rp = require('request-promise')
 var currentToken={};
 var options = { method: 'POST',
   url: 'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13',
@@ -14,8 +15,12 @@ var options = { method: 'POST',
 
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
-
-  currentToken.accessToken= body.access_token;
+  console.log("hi");
+  //console.log(JSON.parse(response.body).access_token);
+  // currentToken.accessToken= body.access_token;
+  currentToken.accessToken= JSON.parse(response.body).access_token;
+  console.log(currentToken.accessToken);
 });
-
-module.exports= currentToken;
+console.log("moew moew kiry");
+//console.log(currentToken.accessToken);
+module.exports = currentToken;

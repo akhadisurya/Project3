@@ -1,10 +1,11 @@
 
     $(window).load(function () {
+      console.log("hi");
       var socket = io();
       console.log(socket);
       var user1txt='';
       var user2txt='';
-      var token =  "http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=9WdP3&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fdatamarket.accesscontrol.windows.net%2f&Audience=http%3a%2f%2fapi.microsofttranslator.com&ExpiresOn=1462222977&Issuer=https%3a%2f%2fdatamarket.accesscontrol.windows.net%2f&HMACSHA256=sIRzcvzmrTI1sa%2fd18IrpzPNxoR8xS5gMlVMJ%2bFSOTU%3d" ;
+      var token =  currentToken.accessToken ;
       $('#btnAjaxTranslate').click(function (evt) {
         var inputText = $('#txtAjaxInput').val();
         user1txt = $('#txtAjaxInput').val();
