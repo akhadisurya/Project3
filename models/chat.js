@@ -1,9 +1,12 @@
 var mongoose = require('mongoose');
 
 var chatSchema = new mongoose.Schema({
-  content: String,
-  room_id: String,
-  user_id: String,
+  original_message: String,
+  original_language: String,
+  translated_message: String,
+  translated_language: String,
+  room_id: {type:String,default:"/"},
+  user_name: String,
   created: { type: Date, default: Date.now }
 });
 

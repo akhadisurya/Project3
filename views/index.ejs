@@ -48,12 +48,16 @@
 
 
 
-
+<div class="chatbox">
   <div class="container">
     <div class="row">
       <div class="col-xs-6" id ="chatsesh1">
         <form id="form1" runat="server">
+
+          <h1>Chat Room </h1>
+
           <h1>Message 1</h1>
+
           <h2>Input</h2>
           <$ if (user) { $>
             <span>User Name: <$= user.name $></span>
@@ -64,18 +68,22 @@
             <option value="en">English</option>
             <option value="es">Spanish</option>
           </select>
-          <div>
-            <input type="text" id="txtAjaxInput" value="you" />
-            <input type="button" id="btnAjaxTranslate" value="Send" />
-          </div>
+           <div>
+
+
+        </div>
           <h2>Output 1</h2>
 
         </form>
         <span id="txtAjaxOutput"> <!-- test me 1 --></span>
+          <textarea type="text" id="txtAjaxInput" placeholder="Send a message" rows="3"></textarea>
+          <input type="button" class="btn waves-effect waves-teal" id="btnAjaxTranslate" value="Send" />
+
       </div>
 
 
     </div>
+  </div>
   </div>
  <script>
     var userId = '';
@@ -119,21 +127,24 @@ $(document).ready(function(e){
 
      });
 
-  });
-
+});
 
   socket.on('back2Front',function(data){
+      socket.emit('sent message',data, function(data){
 
+    });
     // console.log(data.sockLang );
     if(data.sockLang === "es" ){
       console.log(userName);
       console.log(data.userID + "bacone id");
+
       console.log("i ran");
       console.log(data.original);
        $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
     }else{
       $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
     }
+
      console.log(data);
     // $('#txtAjaxOutput').append("<div>"+data[0]+"</div>");
     // console.log(data);

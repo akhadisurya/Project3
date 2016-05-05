@@ -59,7 +59,8 @@ io.on('connection', function (socket) {
     })
     // .then(response => console.log(response))
 
-    .then(response => io.sockets.emit('back2Front',{response:response,original: data.toTrans,dl:data.lang,dl2:data.lang2,userID:data.userID,uname:data.uname}))
+
+    .then(response => io.sockets.emit('back2Front',{response:response,original: data.toTrans,dl:data.lang,dl2:data.lang2,userID:data.userID}))
 
     .catch(err => console.log(err))
     // io.sockets.emit('back2Front',data);
@@ -93,8 +94,14 @@ io.on('connection', function (socket) {
       console.log(data);
     //Create message
     var newMsg = new Chat({
-      username: data.userID,
-      content: data.toTrans,
+
+      original_message: data.original,
+      original_language: data.dl,
+      translated_message: data.response,
+      translated_language: data.dl2,
+      user_name: data.userID
+
+
       // room: data.room.toLowerCase(), //this is for when we adding the rooms part
     });
     //Save it to database

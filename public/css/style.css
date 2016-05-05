@@ -6,53 +6,29 @@
  * Made By MaterializeCSS.com
  */
 
-
-/*nav ul a,
-nav .brand-logo {
-  color: #444;
-}
-
-p {
-  line-height: 2rem;
-}
-
-.button-collapse {
-  color: #26a69a;
-}
-
-.parallax-container {
-  min-height: 380px;
-  line-height: 0;
-  height: auto;
-  color: rgba(255,255,255,.9);
-}
-  .parallax-container .section {
-    width: 100%;
-  }
-
-@media only screen and (max-width : 992px) {
-  .parallax-container .section {
-    position: absolute;
-    top: 40%;
-  }
-  #index-banner .section {
-    top: 10%;
-  }
-}
-
-@media only screen and (max-width : 600px) {
-  #index-banner .section {
-    top: 0;
-  }
-}
-
-.icon-block {
-  padding: 0 15px;
-}
-.icon-block .material-icons {
-  font-size: inherit;
-}
-
-footer.page-footer {
-  margin: 0;
+/*#txtAjaxOutput{
+  text-align: left;
 }*/
+
+#txtAjaxInput {
+    width: 100%;
+      border: none;
+      padding: 10px 20px;
+      font: 14px/22px "Lato", Arial, sans-serif;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      resize: none;
+      /*text-align: right;*/
+
+  }
+
+  .chatbox {
+  width: 490px;
+  background: #F2F5F8;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin: 0 auto;
+  color: #434651;
+  }
+
+
