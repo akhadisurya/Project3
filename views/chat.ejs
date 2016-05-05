@@ -132,7 +132,7 @@ $(document).ready(function(e){
   //chat history
   socket.on("loadMessages", function(allChats){
    // console.log("loadmessags recived on the front");
-  $('#txtAjaxOutput').append("<div>" + allChats + "<div>")
+  $('#txtAjaxOutput').append("<div>" + "<br>" + allChats + "<br>" + "<div>")
   })
 
   socket.on('back2Front',function(data){

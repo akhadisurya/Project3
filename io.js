@@ -129,7 +129,7 @@ console.log("io is running");
 io.on("connection", function(){
   //console.log(Chat.find({}));
   Chat.find({}, function(err, chats) {
-  for(var i = chats.length -10; i < chats.length; i++){
+  for(var i = chats.length - 10; i < chats.length; i++){
   // allChats += chats[i].original_message + ","
    allChats.push([chats[i].original_message])
    //console.log(allChats[i] + " socket listening of names")
