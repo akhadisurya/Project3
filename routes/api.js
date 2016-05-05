@@ -8,7 +8,7 @@ function isLoggedIn(req, res, next) {
 }
 
 //get API
-router.get('/chats', usersCtrl.index);
+router.get('/chats', chatsCtrl.index);
 
 
 module.exports = router;

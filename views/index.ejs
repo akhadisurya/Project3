@@ -74,6 +74,7 @@
         </div>
           <h2>Output 1</h2>
 
+
         </form>
         <span id="txtAjaxOutput"> <!-- test me 1 --></span>
           <textarea type="text" id="txtAjaxInput" placeholder="Send a message" rows="3"></textarea>
@@ -99,7 +100,7 @@
   <script src="../js/materialize.js" type="text/javascript" charset="utf-8" async defer></script>
 
   <script src="/socket.io/socket.io.js"></script>
-
+  <script src="/js/app.js"></script>
 
 
   <script>
@@ -128,6 +129,11 @@ $(document).ready(function(e){
      });
 
 });
+  //chat history
+  socket.on("loadMessages", function(allChats){
+   // console.log("loadmessags recived on the front");
+  $('#txtAjaxOutput').append("<div>" + allChats + "<div>")
+  })
 
   socket.on('back2Front',function(data){
       socket.emit('sent message',data, function(data){

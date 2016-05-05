@@ -5,6 +5,7 @@ rp = require('request-promise')
 var key = require('./config/key')
 var Chat = require('./models/chat');
 var bacon;
+var allChats = [];
 // var currentToken ;
 // console.log(currentToken)
 function runToken(){
@@ -123,6 +124,19 @@ io.on('connection', function (socket) {
 //     io.emit('clear-it',data);
 //   });
 console.log("io is running");
+
+
+io.on("connection", function(){
+  //console.log(Chat.find({}));
+  Chat.find({}, function(err, chats) {
+  for(var i = chats.length -10; i < chats.length; i++){
+  // allChats += chats[i].original_message + ","
+   allChats.push([chats[i].original_message])
+   //console.log(allChats[i] + " socket listening of names")
+ }});
+ io.sockets.emit("loadMessages", allChats)
+})
+
 // console.log(io.sockets.adapter.rooms);
 // In Socket.IO 0.7 you have a clients method on the namespaces, this returns a array of all connected sockets.
 // console.log(io.sockets.clients());
