@@ -115,6 +115,9 @@ $(document).ready(function(e){
       // console.log(token)
       // $chat.append('<span class="error">' + token +"runs line 124 index" +"</span><br/>");
     });
+    socket.emit('sent message',passTranLang, function(data){
+
+     });
 
   });
 

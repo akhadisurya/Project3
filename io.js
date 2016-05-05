@@ -3,6 +3,7 @@ var io = require('socket.io')();
 var request = require('request');
 rp = require('request-promise')
 var key = require('./config/key')
+var Chat = require('./models/chat');
 var bacon;
 // var currentToken ;
 // console.log(currentToken)
@@ -35,25 +36,34 @@ io.on('connection', function (socket) {
 
   socket.on('wasClicked', function(data){
     console.log("the button was clicked on the front")
-    // data=bacon;
+
+    socket.originalLanguage = data.lang;
+    console.log(socket.originalLanguage);
+
 
     rp({
       method: "GET",
       uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
       qs: {
         appId: "Bearer" + " " + bacon,
+
+
+        from: "en", //chnage to actual values not jquery backside
+        to: "es",
+
         from: data.lang, //chnage to actual values not jquery backside
         to: data.lang2,
+
         text: data.toTrans
       }
     })
     // .then(response => console.log(response))
+
     .then(response => io.sockets.emit('back2Front',{response:response,original: data.toTrans,dl:data.lang,dl2:data.lang2,userID:data.userID,uname:data.uname}))
+
     .catch(err => console.log(err))
     // io.sockets.emit('back2Front',data);
   });
-
-
 
   //Emit the rooms array
   socket.emit('setup', {
@@ -78,19 +88,24 @@ io.on('connection', function (socket) {
     io.in(data.newRoom).emit('user joined', data);
 
   });
-
-    socket.on('new message', function(data) {
+    socket.on('sent message', function(data) {
+      console.log("i heard sent message broadcast");
+      console.log(data);
     //Create message
     var newMsg = new Chat({
-      username: data.username,
-      content: data.message,
-      room: data.room.toLowerCase(),
-      created: new Date()
+      username: data.userID,
+      content: data.toTrans,
+      // room: data.room.toLowerCase(), //this is for when we adding the rooms part
     });
     //Save it to database
     newMsg.save(function(err, msg){
       //Send message to those connected in the room
-      io.in(msg.room).emit('message created', msg);
+      if(err) {
+        console.log("error: ", err );
+      } else {
+        console.log("saved", msg);
+      }
+      // io.in(msg.room).emit('message created', msg);
     });
   });
 //   socket.on('add-circle', function(data){

@@ -1,6 +1,5 @@
 var router = require('express').Router();
-var studentsCtrl = require('../controllers/students');
-var factsCtrl = require('../controllers/facts');
+var chatsCtrl = require('../controllers/chats');
 
 // Insert this middleware for routes that require a logged in user
 function isLoggedIn(req, res, next) {
@@ -8,27 +7,8 @@ function isLoggedIn(req, res, next) {
   res.redirect('/auth/google');
 }
 
-// GET /api/students
-router.get('/students', studentsCtrl.index);
+//get API
+router.get('/chats', usersCtrl.index);
 
-/*-------------------------------------------------------
-ReSTful routes for: facts:
-
-  Despite the fact that we don't have a 'facts' collection,
-  we still need routes that map to their creation and
-  removal.
-
-  GET: Not needed / facts are fetched with each student
-  POST: Creates a new fact for the currently
-        authenticated student.
-  DELETE: Deletes the fact with the :id param.
-  PUT: Not used in this app.
--------------------------------------------------------*/
-
-// POST /api/facts
-router.post('/facts', isLoggedIn, factsCtrl.create);
-
-// DELETE /api/facts/:id
-router.delete('/facts/:id', factsCtrl.delete);
 
 module.exports = router;
