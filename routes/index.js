@@ -19,19 +19,19 @@ router.get('/auth/google', passport.authenticate(
 router.get('/oauth2callback', passport.authenticate(
   'google',
   {
-    successRedirect : '/',
-    failureRedirect : '/'
+    successRedirect : '/chat',
+    failureRedirect : '/chat'
   }
 ));
 
 // OAuth logout route
 router.get('/logout', function(req, res){
   req.logout();
-  res.redirect('/splash');
+  res.redirect('/');
 });
 
-router.get('/splash', function (req,res,next) {
-  res.render('splash', { user: req.user })
+router.get('/chat', function (req,res,next) {
+  res.render('chat', { user: req.user })
 })
 
 

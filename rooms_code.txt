@@ -1,11 +1,11 @@
 <div id="room-027942b3nj"></div>
 <div id="room-092332b4b2n"></div>
-
+​
 <div class="chat-input" id="chat-input-027942b3nj"></div>
 <div class="chat-input" id="chat-input-092332b4b2n"></div>
-
+​
 <select id="language"></select
-
+​
 $('.chat-input').on('click', function (e) {
   var room_id = e.target.id.split('-')[2]
   socket.emit('room-send-' + room_id, {
@@ -14,25 +14,25 @@ $('.chat-input').on('click', function (e) {
     language: $("#language").val(),
     message: "Hello"
   })
-
+​
 })
-
-
+​
+​
 var rooms = [// array of room IDs]
-
+​
 rooms.forEach(function (room_id) {
   socket.on('room-broadcast-' + room_id, function (msg) {
     $('room-' + room_id).append(// message html here)
-
+​
   })
 })
-
+​
 // io.js
-
+​
 rooms.forEach(function (room_id) {
   socket.on('room-send-' + room_id, function (msg) {
     // do all translations here
-
+​
     io.emit('room-broadcast-', {
       username: ,
       original_language: ,
@@ -45,12 +45,13 @@ rooms.forEach(function (room_id) {
     })
   })
 })
-
+​
 // Rooms model
-
+​
 var roomSchema = mongoose.Schema({
   users: Array,
 })
+​
 
 // This should be a seperate route
 var rooms = Room.find({ users: user_id })

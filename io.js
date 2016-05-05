@@ -40,29 +40,78 @@ io.on('connection', function (socket) {
 
     socket.originalLanguage = data.lang;
     console.log(socket.originalLanguage);
-
+    var totalTranslations =[];
 
     rp({
       method: "GET",
       uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
       qs: {
         appId: "Bearer" + " " + bacon,
-
-
-        from: "en", //chnage to actual values not jquery backside
-        to: "es",
-
         from: data.lang, //chnage to actual values not jquery backside
-        to: data.lang2,
-
+        to: data.lang,
         text: data.toTrans
       }
     })
     // .then(response => console.log(response))
 
+    .then( function(response){
+      console.log(response + " 1");
+      return totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang,userID:data.userID});
+    })
+    .then(
 
-    .then(response => io.sockets.emit('back2Front',{response:response,original: data.toTrans,dl:data.lang,dl2:data.lang2,userID:data.userID}))
+      rp({
+        method: "GET",
+        uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
+        qs: {
+          appId: "Bearer" + " " + bacon,
+        from: data.lang, //chnage to actual values not jquery backside
+        to: data.lang2,
+        text: data.toTrans
+      }
+    }
+    ))
+    // .then(response => console.log(response))
 
+    .then( function(response){
+      console.log(response + " 2");
+      return totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang2,userID:data.userID});
+    }).then(
+     rp({
+      method: "GET",
+      uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
+      qs: {
+        appId: "Bearer" + " " + bacon,
+        from: data.lang, //chnage to actual values not jquery backside
+        to: data.lang3,
+        text: data.toTrans
+      }
+    }).then(  function(response){
+      console.log(response+ " 3");
+      totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang3,userID:data.userID});
+    }
+    ))
+
+    .then(
+      rp({
+        method: "GET",
+        uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
+        qs: {
+          appId: "Bearer" + " " + bacon,
+        from: data.lang, //chnage to actual values not jquery backside
+        to: data.lang4,
+        text: data.toTrans
+      }
+    }).then(function(response){
+      console.log(response+" 4")
+      totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang4,userID:data.userID});
+      console.log(totalTranslations[2] + " All the messages");
+    }
+
+    ))
+    .then(
+      io.sockets.emit('back2Front', totalTranslations)
+      )
     .catch(err => console.log(err))
     // io.sockets.emit('back2Front',data);
   });
@@ -93,6 +142,7 @@ io.on('connection', function (socket) {
     socket.on('sent message', function(data) {
       console.log("i heard sent message broadcast");
       console.log(data);
+      // console.log(data.trim());
     //Create message
     var newMsg = new Chat({
 

@@ -83,10 +83,20 @@
         <div class="row center">
           <h5 class="header col s12 light">Don’t let language barriers hold you back. Rosetta Chat is an innovative messaging app...</h5>
         </div>
+<<<<<<< HEAD:views/chat.ejs
+          <h2>Output 1</h2>
+
+
+        </form>
+        <span id="txtAjaxOutput"> <!-- test me 1 --></span>
+          <textarea type="text" id="txtAjaxInput" placeholder="Send a message" rows="3"></textarea>
+          <input type="button" class="btn waves-effect waves-teal" id="btnAjaxTranslate" value="Send" />
+=======
         <div class="row center">
           <a href="" class="btn-large waves-effect waves-light teal lighten-1">Get The App</a>
         </div>
         <br><br>
+>>>>>>> 182574c0e6bfc732a6b0c910ca9e5405adb4d1e8:views/index.ejs
 
       </div>
     </div>
@@ -118,10 +128,55 @@
  <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
+<<<<<<< HEAD:views/chat.ejs
+
+  <script src="../js/materialize.js" type="text/javascript" charset="utf-8" async defer></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/app.js"></script>
+
+
+  <script>
+  jQuery(function($){
+    var socket = io.connect();
+    var token ;
+$(document).ready(function(e){
+  console.log("document loaded");
+    socket.emit('winloaded');
+
+  });
+
+  $('#btnAjaxTranslate').click(function(e){
+    var pleaseTranslateMe = $('#txtAjaxInput').val();
+    var userLang = $("#user").val();
+    var otherLang = userLang == "en" ? "es" : "en";
+    var passTranLang={toTrans: pleaseTranslateMe, lang:userLang, lang2:otherLang,userID:userId,uname:user.name};
+    socket.emit('wasClicked', passTranLang, function(data){
+      console.log(data + " was clicked was run heere ");
+      // token =data.toString();
+      // console.log(token)
+      // $chat.append('<span class="error">' + token +"runs line 124 index" +"</span><br/>");
+    });
+    socket.emit('sent message',passTranLang, function(data){
+
+     });
+
+});
+  //chat history
+  socket.on("loadMessages", function(allChats){
+   // console.log("loadmessags recived on the front");
+  $('#txtAjaxOutput').append("<div>" + "<br>" + allChats + "<br>" + "<div>")
+  })
+
+  socket.on('back2Front',function(data){
+      socket.emit('sent message',data, function(data){
+
+=======
   <script src="js/init.js"></script>
 <script>
  $(document).ready(function(){
       $('.slider').slider({full_width: true});
+>>>>>>> 182574c0e6bfc732a6b0c910ca9e5405adb4d1e8:views/index.ejs
     });
 </script>
   <script>
