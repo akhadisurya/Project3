@@ -96,11 +96,11 @@
 
 
 
-          <$ if (user) { $>
+     <!--      <$ if (user) { $>
             <span>User Name: <$= user.name $></span>
-          <$ } $>
+          <$ } $> -->
 
-
+<h5> Choose your language: </h3>
           <select id="user" style ="display:inline;">
             <option value="en">English</option>
             <option value="es">Spanish</option>
@@ -207,8 +207,8 @@ $(document).ready(function(e){
     $('#txtAjaxOutput').append("<div><br></div>");
 
     function runThroughData(item, index){
-      var dt = new Date()
-      var time = dt.getHours() + ":" + dt.getMinutes();
+      var dt = new Date();
+      var time = dt.toLocaleString().split(', ')[1];
        console.log(item.dl + " This is an item" + userLang);
 
        if(item.dl2 == userLang){
@@ -216,6 +216,7 @@ $(document).ready(function(e){
        }
 
     }
+
 
     // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
     // $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
