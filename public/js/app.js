@@ -12,11 +12,11 @@ $(function() {
 
     //allChats = chats;
 
-    for(var i = 0; i < chats.length; i++){
-      // allChats += chats[i].original_message + ","
-       allChats.push([chats[i].original_message])
-      // console.log(allChats[i])
-    }
+    // for(var i = 0; i < chats.length; i++){
+    //   // allChats += chats[i].original_message + ","
+    //    allChats.push([chats[i].original_message])
+    //   // console.log(allChats[i])
+    // }
     //console.log(allChats)
   });
 })
