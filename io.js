@@ -5,7 +5,7 @@ rp = require('request-promise')
 var key = require('./config/key')
 var Chat = require('./models/chat');
 var bacon;
-
+var allChats = [];
 
 var totalTranslations =[];
 
@@ -33,6 +33,7 @@ io.on('connection', function (socket) {
   socket.on('winloaded',function(data){
     data=bacon;
     io.sockets.emit('winloaded',data);
+    io.sockets.emit('userscame',data);// this line was added
   });
 
   socket.on('wasClicked', function(data){
@@ -159,6 +160,11 @@ io.on('connection', function (socket) {
 
       // room: data.room.toLowerCase(), //this is for when we adding the rooms part
     });
+
+    // newMsg.push(allChats)
+    // for(var i in allChats){
+    //   socket.emit("chats", {chat: allChats[i]})
+    // }
     //Save it to database
     newMsg.save(function(err, msg){
       //Send message to those connected in the room
@@ -181,15 +187,27 @@ console.log("io is running");
 
 
 io.on("connection", function(){
+
   //console.log(Chat.find({}));
-  Chat.find({}, function(err, chats) {
-  for(var i = chats.length - 10; i < chats.length; i++){
-  // allChats += chats[i].original_message + ","
-   allChats.push([chats[i].original_message])
-   //console.log(allChats[i] + " socket listening of names")
- }});
- io.sockets.emit("loadMessages", allChats)
-})
+  console.log("banaas in ajams");
+  var query = Chat.find('chats');
+  query.sort('-created').limit(8).exec(function(err,megs){
+    console.log(megs.original_message)
+    if(err)throw err;
+    io.sockets.emit("loadMessages",megs)
+  });
+  //console.log(query);
+  // Chat.find({}, function(err, chats) {
+  //   allChats=[];
+   // console.log(chats)
+ //  for(var i = 0; i> query.length;i++){
+ //    console.log(query);
+ //  // allChats += chats[i].original_message + ","
+ //   allChats.push([query[i].original_message])
+ //   //console.log(allChats[i] + " socket listening of names")
+ // }
+
+});
 
 // console.log(io.sockets.adapter.rooms);
 // In Socket.IO 0.7 you have a clients method on the namespaces, this returns a array of all connected sockets.

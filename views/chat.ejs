@@ -86,11 +86,12 @@
 
 <div class="chatbox">
     <div class="row">
-      <div class="col s3" id="side-nav">Test Div</div>
+      <div class="col s3" id="side-nav" style="color:white;"></div>
       <div class="col s9" id ="chatsesh1">
       <div class="header">
           <h1>Chat Room </h1>
           </div>
+          <br> <br>
         <form id="form1" runat="server">
 
 
@@ -138,13 +139,16 @@
   <script src="../js/materialize.js" type="text/javascript" charset="utf-8" async defer></script>
 
   <script src="/socket.io/socket.io.js"></script>
-
+  <script src="/js/app.js"></script>
 
 
   <script>
   jQuery(function($){
     var socket = io.connect();
     var token ;
+    var userLang;
+    var users = [];
+
 $(document).ready(function(e){
   console.log("document loaded");
     socket.emit('winloaded');
@@ -153,7 +157,7 @@ $(document).ready(function(e){
 
   $('#btnAjaxTranslate').click(function(e){
     var pleaseTranslateMe = $('#txtAjaxInput').val().trim();
-    var userLang = $("#user").val();
+     userLang = $("#user").val();
     //var otherLang = userLang == "en" ? "es" : "en";
     switch (userLang) {
         case "es":
@@ -178,12 +182,20 @@ $(document).ready(function(e){
     });
     $('#txtAjaxInput').val('');
 });
+    //chat history
+    socket.on("loadMessages", function(allChats){
+
+     console.log("loadmessags recived on the front");
+    $('#txtAjaxOutput').append("<div>" + "<br>" + allChats + "<br>" + "<div>")
+    });
+
 
   socket.on('back2Front',function(data){
     console.log(data + " This should be data");
       socket.emit('sent message',data, function(data){
 
     });
+
 
     // console.log(data.sockLang );
     // if(data.sockLang === "es" ){
@@ -199,9 +211,14 @@ $(document).ready(function(e){
 
     data.forEach(runThroughData);
     $('#txtAjaxOutput').append("<div><br></div>");
+
     function runThroughData(item, index){
-       console.log(item.userID + " This is an item");
-      $('#txtAjaxOutput').append("<div>"+item.userID+": "+item.response+ " ("+item.dl2+")"+"</div>");
+       console.log(item.dl + " This is an item" + userLang);
+
+       if(item.dl2 == userLang){
+          $('#txtAjaxOutput').append("<div>"+item.userID+": "+item.response+ " ("+item.dl2+")"+"</div>");
+       }
+
     }
     // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
     // $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
@@ -213,6 +230,29 @@ $(document).ready(function(e){
     // console.log(data);
     console.log("Im front and got response from the back");
   });
+
+  //   $("#user").click(function(data){
+  //   socket.emit("languageChange", data);
+  // });
+  // socket.on('languageChange',function(data){
+  //   console.log("lan chage was activated");
+  //     userLang = $("#user").val();
+  //     }
+  //   );
+
+    socket.on('userscame', function(data){
+        var html ;
+        users+= userId;
+        for(var i=0; i < users.length; i++){
+          $("#side-nav").append(users[i]);
+        }
+         // $("#side-nav").css('color:white;');
+      });
+
+    // socket.on('userLeft',function(){
+
+    // });
+
   socket.on('winloaded',function(data){
     console.log("receied the win load event");
   })
