@@ -8,7 +8,11 @@ var bacon;
 
 
 var totalTranslations =[];
+<<<<<<< HEAD
 
+=======
+var users= [];
+>>>>>>> d82106a400ea8e1728ddf9bb6d1921633b6a820a
 // var currentToken ;
 // console.log(currentToken)
 function runToken(){
@@ -41,8 +45,15 @@ io.on('connection', function (socket) {
   socket.on('winloaded',function(data){
     data=bacon;
     io.sockets.emit('winloaded',data);
-    io.sockets.emit('userscame',data);// this line was added
+
+
   });
+  socket.on('userscame',function(data){
+    socket.userName = data;
+
+    io.sockets.emit('userscame',socket.userName);
+  });
+
 
   socket.on('wasClicked', function(data){
     totalTranslations =[];
@@ -154,7 +165,10 @@ io.on('connection', function (socket) {
       // console.log(data.trim());
     //Create message
     var newMsg = new Chat({
+<<<<<<< HEAD
 
+=======
+>>>>>>> d82106a400ea8e1728ddf9bb6d1921633b6a820a
       original_message: data[0].original,
       original_language: data[0].dl2,
       translated_message1: data[1].response,
@@ -164,7 +178,6 @@ io.on('connection', function (socket) {
       translated_message3: data[3].response,
       translated_language3: data[3].dl2,
       user_name: data[0].userID
-
 
       // room: data.room.toLowerCase(), //this is for when we adding the rooms part
     });

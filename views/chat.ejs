@@ -96,11 +96,11 @@
 
 
 
-          <$ if (user) { $>
+     <!--      <$ if (user) { $>
             <span>User Name: <$= user.name $></span>
-          <$ } $>
+          <$ } $> -->
 
-
+<h5> Choose your language: </h3>
           <select id="user" style ="display:inline;">
             <option value="en">English</option>
             <option value="es">Spanish</option>
@@ -118,10 +118,11 @@
         </div>
         <div id="input-box">
           <textarea type="text" id="txtAjaxInput" placeholder="Send a message" rows="3"></textarea>
-          <input type="button" class="btn waves-effect waves-teal" id="btnAjaxTranslate" value="Send" />
+           <button class="btn waves-effect waves-light" id="btnAjaxTranslate" type="submit" name="action">Send
+              <i class="material-icons right">send</i>
+            </button>
         </div>
       </div>
-
 
     </div>
   </div>
@@ -142,15 +143,17 @@
   <script src="/js/app.js"></script>
 
 
-  <script>
+   <script>
   jQuery(function($){
     var socket = io.connect();
     var token ;
     var userLang;
     var users = [];
-
 $(document).ready(function(e){
   console.log("document loaded");
+  socket.userName = userId;
+  socket.emit('userscame',socket.userName,function(data){});
+  console.log(socket.userName);
     socket.emit('winloaded');
 
   });
@@ -198,7 +201,6 @@ $(document).ready(function(e){
 
     });
 
-
     // console.log(data.sockLang );
     // if(data.sockLang === "es" ){
     //   console.log(userName);
@@ -215,13 +217,16 @@ $(document).ready(function(e){
     $('#txtAjaxOutput').append("<div><br></div>");
 
     function runThroughData(item, index){
+      var dt = new Date();
+      var time = dt.toLocaleString().split(', ')[1];
        console.log(item.dl + " This is an item" + userLang);
 
        if(item.dl2 == userLang){
-          $('#txtAjaxOutput').append("<div>"+item.userID+": "+item.response+ " ("+item.dl2+")"+"</div>");
+          $('#txtAjaxOutput').append("<div>" +time +" "+item.userID+": "+item.response+ " ("+item.dl2+")"+"</div>");
        }
 
     }
+
     // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
     // $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
     // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
@@ -233,27 +238,21 @@ $(document).ready(function(e){
     console.log("Im front and got response from the back");
   });
 
-  //   $("#user").click(function(data){
-  //   socket.emit("languageChange", data);
-  // });
-  // socket.on('languageChange',function(data){
-  //   console.log("lan chage was activated");
-  //     userLang = $("#user").val();
-  //     }
-  //   );
-
     socket.on('userscame', function(data){
         var html ;
-        users+= userId;
-        for(var i=0; i < users.length; i++){
-          $("#side-nav").append(users[i]);
+        console.log(users.indexOf(data));
+        if(users.indexOf(data)<0){
+          users+= data;
+          console.log(users);
+          $("#side-nav").empty();
+           for(var i=0; i < users.length; i++){
+           // console.log(users[i]);
+          $("#side-nav").append('<div>'+users[i]+'</div>');
         }
-         // $("#side-nav").css('color:white;');
+        }
+        else{users=users;}
       });
 
-    // socket.on('userLeft',function(){
-
-    // });
 
   socket.on('winloaded',function(data){
     console.log("receied the win load event");
