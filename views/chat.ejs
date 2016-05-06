@@ -143,15 +143,17 @@
 
 
 
-  <script>
+   <script>
   jQuery(function($){
     var socket = io.connect();
     var token ;
     var userLang;
     var users = [];
-
 $(document).ready(function(e){
   console.log("document loaded");
+  socket.userName = userId;
+  socket.emit('userscame',socket.userName,function(data){});
+  console.log(socket.userName);
     socket.emit('winloaded');
 
   });
@@ -190,7 +192,6 @@ $(document).ready(function(e){
 
     });
 
-
     // console.log(data.sockLang );
     // if(data.sockLang === "es" ){
     //   console.log(userName);
@@ -217,7 +218,6 @@ $(document).ready(function(e){
 
     }
 
-
     // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
     // $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
     // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
@@ -229,34 +229,21 @@ $(document).ready(function(e){
     console.log("Im front and got response from the back");
   });
 
-  //   $("#user").click(function(data){
-  //   socket.emit("languageChange", data);
-  // });
-  // socket.on('languageChange',function(data){
-  //   console.log("lan chage was activated");
-  //     userLang = $("#user").val();
-  //     }
-  //   );
-
-
     socket.on('userscame', function(data){
         var html ;
-        console.log(users.indexOf(userId));
-        if(users.indexOf(userId)<0){
-          users+= userId;
+        console.log(users.indexOf(data));
+        if(users.indexOf(data)<0){
+          users+= data;
+          console.log(users);
+          $("#side-nav").empty();
            for(var i=0; i < users.length; i++){
-          $("#side-nav").append(users[i]);
+           // console.log(users[i]);
+          $("#side-nav").append('<div>'+users[i]+'</div>');
         }
         }
         else{users=users;}
-
-
-         // $("#side-nav").css('color:white;');
       });
 
-    // socket.on('userLeft',function(){
-
-    // });
 
   socket.on('winloaded',function(data){
     console.log("receied the win load event");
