@@ -31,7 +31,7 @@ ___
 Development | Design | Deployment
 ------------|------|-------------------
 HTML| CSS | Heroku
-Git | Bootstrap |
+Git |
 GitHub |  |
 JavaScript |
 jQuery |
