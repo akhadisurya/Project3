@@ -5,7 +5,7 @@ rp = require('request-promise')
 var key = require('./config/key')
 var Chat = require('./models/chat');
 var bacon;
-var allChats = [];
+
 
 var totalTranslations =[];
 
@@ -29,6 +29,14 @@ io.on('connection', function (socket) {
   // console.log(currentToken);
   var defaultRoom = 'everyone';
   var rooms = ["Everyone", "en-es", "en-fr"];
+
+  //line 33-38 created 5-6-16 9:51am for chat hist
+  var query = Chat.find('chats');
+  query.sort('-created').limit(5).exec(function(err,msgs){
+    //console.log(msgs.original_message)
+    if(err)throw err;
+    io.sockets.emit("loadMessages",msgs)
+
 
   socket.on('winloaded',function(data){
     data=bacon;
@@ -186,16 +194,13 @@ io.on('connection', function (socket) {
 console.log("io is running");
 
 
-io.on("connection", function(){
-
-  //console.log(Chat.find({}));
-  console.log("banaas in ajams");
-  var query = Chat.find('chats');
-  query.sort('-created').limit(8).exec(function(err,megs){
-    console.log(megs.original_message)
-    if(err)throw err;
-    io.sockets.emit("loadMessages",megs)
-  });
+// io.on("connection", function(){
+//   var query = Chat.find('chats');
+//   query.sort('-created').limit(1).exec(function(err,msgs){
+//     //console.log(msgs.original_message)
+//     if(err)throw err;
+//     io.sockets.emit("loadMessages",msgs)
+//   });
   //console.log(query);
   // Chat.find({}, function(err, chats) {
   //   allChats=[];

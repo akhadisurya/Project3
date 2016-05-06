@@ -182,12 +182,14 @@ $(document).ready(function(e){
     });
     $('#txtAjaxInput').val('');
 });
-    // //chat history
-    // socket.on("loadMessages", function(allChats){
+    //chat history
+    socket.on("loadMessages", function(allChats){
 
-    //  console.log("loadmessags recived on the front");
-    // $('#txtAjaxOutput').append("<div>" + "<br>" + allChats + "<br>" + "<div>")
-    // });
+     console.log("loadmessags recived on the front");
+     allChats.forEach(function (chat) {
+      $('#txtAjaxOutput').append("<div>" + "<br>" + chat.original_message + "<br>" + "<div>")
+     })
+    });
 
 
   socket.on('back2Front',function(data){
