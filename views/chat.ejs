@@ -118,10 +118,11 @@
         </div>
         <div id="input-box">
           <textarea type="text" id="txtAjaxInput" placeholder="Send a message" rows="3"></textarea>
-          <input type="button" class="btn waves-effect waves-teal" id="btnAjaxTranslate" value="Send" />
+           <button class="btn waves-effect waves-light" id="btnAjaxTranslate" type="submit" name="action">Send
+              <i class="material-icons right">send</i>
+            </button>
         </div>
       </div>
-
 
     </div>
   </div>
@@ -206,13 +207,16 @@ $(document).ready(function(e){
     $('#txtAjaxOutput').append("<div><br></div>");
 
     function runThroughData(item, index){
+      var dt = new Date()
+      var time = dt.getHours() + ":" + dt.getMinutes();
        console.log(item.dl + " This is an item" + userLang);
 
        if(item.dl2 == userLang){
-          $('#txtAjaxOutput').append("<div>"+item.userID+": "+item.response+ " ("+item.dl2+")"+"</div>");
+          $('#txtAjaxOutput').append("<div>" +time +" "+item.userID+": "+item.response+ " ("+item.dl2+")"+"</div>");
        }
 
     }
+
     // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
     // $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
     // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
@@ -233,12 +237,19 @@ $(document).ready(function(e){
   //     }
   //   );
 
+
     socket.on('userscame', function(data){
         var html ;
-        users+= userId;
-        for(var i=0; i < users.length; i++){
+        console.log(users.indexOf(userId));
+        if(users.indexOf(userId)<0){
+          users+= userId;
+           for(var i=0; i < users.length; i++){
           $("#side-nav").append(users[i]);
         }
+        }
+        else{users=users;}
+
+
          // $("#side-nav").css('color:white;');
       });
 
