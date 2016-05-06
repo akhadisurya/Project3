@@ -84,7 +84,6 @@
 </div> -->
 
 
-
 <div class="chatbox">
     <div class="row">
       <div class="col s3" id="side-nav">Test Div</div>
@@ -109,9 +108,8 @@
           </select>
            <div>
 
-
+<br><br>
         </div>
-          <h2>Output 1</h2>
 
         </form>
        <div class="bubble">
@@ -170,8 +168,8 @@ $(document).ready(function(e){
         default:
             otherLang =["en","es","fr","it"];
     }
-    var passTranLang={toTrans: pleaseTranslateMe, lang:userLang, lang2:otherLang[0],lang3:otherLang[1],
-      lang4:otherLang[2],userID:userId,uname:user.name};
+    var passTranLang={toTrans: pleaseTranslateMe, lang:userLang, lang2:otherLang[1],lang3:otherLang[2],
+      lang4:otherLang[3],userID:userId,uname:user.name};
     socket.emit('wasClicked', passTranLang, function(data){
       console.log(data + " was clicked was run heere ");
       // token =data.toString();
@@ -182,10 +180,10 @@ $(document).ready(function(e){
 });
 
   socket.on('back2Front',function(data){
-    console.log(data);
-    //   socket.emit('sent message',data, function(data){
+    console.log(data + " This should be data");
+      socket.emit('sent message',data, function(data){
 
-    // });
+    });
 
     // console.log(data.sockLang );
     // if(data.sockLang === "es" ){
@@ -198,8 +196,18 @@ $(document).ready(function(e){
     // }else{
     //   $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
     // }
-    $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
-    $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
+
+    data.forEach(runThroughData);
+    $('#txtAjaxOutput').append("<div><br></div>");
+    function runThroughData(item, index){
+       console.log(item.userID + " This is an item");
+      $('#txtAjaxOutput').append("<div>"+item.userID+": "+item.response+ " ("+item.dl2+")"+"</div>");
+    }
+    // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
+    // $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
+    // $('#txtAjaxOutput').append("<div>"+data.userID+": "+data.original+"</div>");
+    // $('#txtAjaxOutput').append("<div>"+data.userID+": " +data.response +"</div>");
+
      console.log(data);
     // $('#txtAjaxOutput').append("<div>"+data[0]+"</div>");
     // console.log(data);

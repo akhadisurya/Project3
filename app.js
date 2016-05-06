@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var session = require('express-session');
 var passport = require('passport');
 
@@ -14,10 +13,11 @@ require('dotenv').config()
 var mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/family-tree');
 
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var api = require('./routes/api')
+
+var api = require('./routes/api');
+
 
 var app = express();
 
@@ -50,9 +50,6 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/api', api)
 
-// mount all routes with appropriate base paths
-//app.use('/', indexRoutes);
-//app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

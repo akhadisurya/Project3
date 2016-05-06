@@ -5,7 +5,10 @@ rp = require('request-promise')
 var key = require('./config/key')
 var Chat = require('./models/chat');
 var bacon;
-var allChats = [];
+
+
+var totalTranslations =[];
+
 // var currentToken ;
 // console.log(currentToken)
 function runToken(){
@@ -32,15 +35,12 @@ io.on('connection', function (socket) {
     io.sockets.emit('winloaded',data);
   });
 
-
-
-
   socket.on('wasClicked', function(data){
+    totalTranslations =[];
     console.log("the button was clicked on the front")
 
     socket.originalLanguage = data.lang;
     console.log(socket.originalLanguage);
-    var totalTranslations =[];
 
     rp({
       method: "GET",
@@ -53,47 +53,45 @@ io.on('connection', function (socket) {
       }
     })
     // .then(response => console.log(response))
-
-    .then( function(response){
+    .then(function(response) {
       console.log(response + " 1");
       return totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang,userID:data.userID});
     })
-    .then(
-
-      rp({
+    .then(function(response){
+      return rp({
         method: "GET",
         uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
         qs: {
           appId: "Bearer" + " " + bacon,
-        from: data.lang, //chnage to actual values not jquery backside
-        to: data.lang2,
-        text: data.toTrans
-      }
-    }
-    ))
+          from: data.lang, //chnage to actual values not jquery backside
+          to: data.lang2,
+          text: data.toTrans
+        }//smile
+      })
+    })
     // .then(response => console.log(response))
-
-    .then( function(response){
+    .then(function(response) {
       console.log(response + " 2");
       return totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang2,userID:data.userID});
-    }).then(
-     rp({
-      method: "GET",
-      uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
-      qs: {
-        appId: "Bearer" + " " + bacon,
-        from: data.lang, //chnage to actual values not jquery backside
-        to: data.lang3,
-        text: data.toTrans
-      }
-    }).then(  function(response){
+    })
+    .then(function(response) {
+      return rp({
+        method: "GET",
+        uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
+        qs: {
+          appId: "Bearer" + " " + bacon,
+          from: data.lang, //chnage to actual values not jquery backside
+          to: data.lang3,
+          text: data.toTrans
+        }
+      })
+    })
+    .then(function(response) {
       console.log(response+ " 3");
-      totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang3,userID:data.userID});
-    }
-    ))
-
-    .then(
-      rp({
+      return totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang3,userID:data.userID});
+    })
+    .then(function(response) {
+      return rp({
         method: "GET",
         uri: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate",
         qs: {
@@ -102,16 +100,18 @@ io.on('connection', function (socket) {
         to: data.lang4,
         text: data.toTrans
       }
-    }).then(function(response){
+    })
+    })
+    .then(function(response){
       console.log(response+" 4")
-      totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang4,userID:data.userID});
-      console.log(totalTranslations[2] + " All the messages");
-    }
-
-    ))
-    .then(
+      return totalTranslations.push({response:response,original: data.toTrans,dl:data.lang,dl2:data.lang4,userID:data.userID});
+      // console.log(totalTranslations[2] + " All the messages");
+    })
+    .then(function(response) {
+      console.log(response + " levl4 ")
+      console.log(totalTranslations);
       io.sockets.emit('back2Front', totalTranslations)
-      )
+    })
     .catch(err => console.log(err))
     // io.sockets.emit('back2Front',data);
   });
@@ -146,11 +146,15 @@ io.on('connection', function (socket) {
     //Create message
     var newMsg = new Chat({
 
-      original_message: data.original,
-      original_language: data.dl,
-      translated_message: data.response,
-      translated_language: data.dl2,
-      user_name: data.userID
+      original_message: data[0].original,
+      original_language: data[0].dl2,
+      translated_message1: data[1].response,
+      translated_language1: data[1].dl,
+      translated_message2: data[2].response,
+      translated_language2: data[2].dl2,
+      translated_message3: data[3].response,
+      translated_language3: data[3].dl2,
+      user_name: data[0].userID
 
 
       // room: data.room.toLowerCase(), //this is for when we adding the rooms part
@@ -195,5 +199,4 @@ io.on("connection", function(){
 // console.log(io.sockets);
 // console.log(io.of('/') );
 });
-
 module.exports = io;

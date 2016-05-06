@@ -1,5 +1,6 @@
 var router = require('express').Router();
-var chatsCtrl = require('../controllers/chats');
+
+var chatsCtrl = require('../controllers/chat');
 
 // Insert this middleware for routes that require a logged in user
 function isLoggedIn(req, res, next) {

@@ -1,5 +1,3 @@
-
-
 var socket = io();
       // console.log(socket);
     socket.on('connection', function (socket) {
