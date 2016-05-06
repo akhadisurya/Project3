@@ -30,6 +30,7 @@ io.on('connection', function (socket) {
   socket.on('winloaded',function(data){
     data=bacon;
     io.sockets.emit('winloaded',data);
+    io.sockets.emit('userscame',data);// this line was added
   });
 
   socket.on('wasClicked', function(data){
