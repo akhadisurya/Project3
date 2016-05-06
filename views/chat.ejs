@@ -229,21 +229,18 @@ $(document).ready(function(e){
     console.log("Im front and got response from the back");
   });
 
-    socket.on('userscame', function(data){
+        socket.on('userscame', function(data){
         var html ;
         console.log(users.indexOf(data));
         if(users.indexOf(data)<0){
-          users+= data;
-          console.log(users);
+          users.push( data);
           $("#side-nav").empty();
            for(var i=0; i < users.length; i++){
-           // console.log(users[i]);
           $("#side-nav").append('<div>'+users[i]+'</div>');
-        }
+          }
         }
         else{users=users;}
       });
-
 
   socket.on('winloaded',function(data){
     console.log("receied the win load event");
